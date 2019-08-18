@@ -1,0 +1,18 @@
+kitchen_lights:
+  name: Lights
+  entities:
+    - light.spot_01
+    - light.spot_02
+    - light.spot_03
+    - light.spot_04
+    - light.spot_05
+    - light.spot_06
+    - light.spot_07
+    - light.spot_08
+
+living_room_lights:
+  name: Lights
+  entities:
+    - light.living_room_left_lamp
+    - light.living_room_right_lamp
+    - light.living_room_side_board_lamp

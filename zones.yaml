@@ -1,0 +1,23 @@
+- name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  radius: 60
+  icon: mdi:home
+
+- name: rob_work
+  latitude: !secret rob_work_latitude
+  longitude: !secret rob_work_longitude
+  radius: 150
+  icon: mdi:work
+
+- name: jo_work_b
+  latitude: !secret jo_work_b_latitude
+  longitude: !secret jo_work_b_longitude
+  radius: 150
+  icon: mdi:work
+
+- name: jo_work_p
+  latitude: !secret jo_work_p_latitude
+  longitude: !secret jo_work_p_longitude
+  radius: 150
+  icon: mdi:work
