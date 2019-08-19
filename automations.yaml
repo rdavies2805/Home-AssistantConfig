@@ -43,11 +43,5 @@
     to: 'on'
   action:
   - data:
-    data_template:
-      title: Automation
-      value1: Lights on at sunset
-      who: rob
-    service: script.notify_engine
-  #- data:
-  #    message: Notifications Work!
-  #  service: notify.ios_rob
+      message: Notifications Work!
+    service: notify.ios_rob
