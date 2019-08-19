@@ -1,0 +1,4 @@
+  boil_kettle:
+    sequence:
+      - service: ifttt.trigger
+        data_template: {"event":"kettle_on", "value1":"", "value2":"", "value3":""}

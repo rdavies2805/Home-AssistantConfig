@@ -1,0 +1,13 @@
+  living_room_lights_movie:
+    sequence:
+      - service: hue.hue_activate_scene
+        data:
+          group_name: "Living Room"
+          scene_name: "Movie Lights"
+
+  living_room_lights_halogen:
+    sequence:
+      - service: hue.hue_activate_scene
+        data:
+          group_name: "Living Room"
+          scene_name: "Halogen"

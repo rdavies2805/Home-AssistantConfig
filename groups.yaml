@@ -16,3 +16,9 @@ living_room_lights:
     - light.living_room_left_lamp
     - light.living_room_right_lamp
     - light.living_room_side_board_lamp
+
+family:
+  name: Family
+  entities:
+    - device_tracker.rob
+    - device_tracker.joey

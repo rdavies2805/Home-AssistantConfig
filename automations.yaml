@@ -1,0 +1,53 @@
+- id: '1566204843160'
+  alias: Lights off at 10pm
+  trigger:
+  - at: '22:01:00'
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - data:
+      entity_id: group.living_room_lights
+    service: light.turn_off
+  - data:
+      entity_id: light.front_door_light
+    service: light.turn_off
+  - data:
+      entity_id: switch.dining_room_lamp
+    service: switch.turn_off
+- id: '1566208874266'
+  alias: Lights on at sunset
+  trigger:
+  - event: sunset
+    platform: sun
+  condition: []
+  action:
+  - service: script.living_room_lights_halogen
+  - data:
+      entity_id: light.front_door_light
+    service: light.turn_on
+  - data:
+      data_template:
+        title: Automation
+        value1: Lights on at sunset
+        who: rob
+    service: script.notify_engine
+- id: '1566208874267'
+  alias: Test Automation
+  trigger:
+  - entity_id: input_boolean.test
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - data:
+    data_template:
+      title: Automation
+      value1: Lights on at sunset
+      who: rob
+    service: script.notify_engine
+  #- data:
+  #    message: Notifications Work!
+  #  service: notify.ios_rob

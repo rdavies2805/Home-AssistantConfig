@@ -15,6 +15,7 @@ homeassistant:
   time_zone: !secret home_timezone
   # Customization file
   #customize: !include customize.yaml
+  #packages: !include_dir_named packages
 
 http:
   base_url: !secret base_url
@@ -64,8 +65,20 @@ hue:
       allow_unreachable: true
       allow_hue_groups: false
 
+input_boolean:
+  guest_mode:
+    name: Guest Mode
+    initial: off
+  notifications:
+    name: Notifications
+    initial: on
+  test:
+    name: Test Automation
+    initial: off
+
+ios:
+
 group: !include groups.yaml
 automation: !include automations.yaml
-script: !include scripts.yaml
 zone: !include zones.yaml
-
+script: !include_dir_merge_named scripts
