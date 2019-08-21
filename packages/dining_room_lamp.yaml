@@ -1,0 +1,22 @@
+automation:
+- alias: "Lights: Kitchen after sunset"
+  id: "Lights_003"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_sensor_motion
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: 'group.family'
+      state: 'home'
+    - condition: state
+      entity_id: 'switch.dining_room_lamp'
+      state: 'off'
+    - condition: sun
+      after: sunset
+    - condition: time
+      before: '22:00:00'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.dining_room_lamp

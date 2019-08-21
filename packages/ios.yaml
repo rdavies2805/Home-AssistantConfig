@@ -1,0 +1,15 @@
+notify:
+  - platform: ios
+  - name: ios_family
+    platform: group
+    services:
+      - service: ios_rob
+      - service: ios_joey
+
+group:
+  Phones:
+    entities:
+      - sensor.robs_iphone_battery_level
+      - sensor.robs_iphone_battery_state
+      - sensor.joeys_iphone_battery_level
+      - sensor.joeys_iphone_battery_state

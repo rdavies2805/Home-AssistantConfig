@@ -15,7 +15,7 @@ homeassistant:
   time_zone: !secret home_timezone
   # Customization file
   #customize: !include customize.yaml
-  #packages: !include_dir_named packages
+  packages: !include_dir_named packages
 
 http:
   base_url: !secret base_url
@@ -77,6 +77,12 @@ input_boolean:
     initial: off
 
 ios:
+
+alexa_media:
+  accounts:
+    - email: !secret amazon_user
+      password: !secret amazon_password
+      url: amazon.co.uk
 
 group: !include groups.yaml
 automation: !include automations.yaml

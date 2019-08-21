@@ -1,0 +1,10 @@
+  audio_notify:
+    sequence: 
+      - service: notify.alexa_media
+        data_template: 
+          target:
+            - media_player.living_room
+          #title: "My title for Echo show"
+          data:
+            type: announce
+          message: "{{ message }}"

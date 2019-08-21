@@ -1,0 +1,55 @@
+sensor:
+
+####################################################
+#                                                  #
+#                Sensors - Template                #
+#                                                  #
+####################################################
+
+  - platform: template
+    sensors:
+     
+      joey_bday:
+        unit_of_measurement: 'Days'
+        value_template: '{{ (( as_timestamp(strptime("2020-02-05 00:00:00" , "%Y-%m-%dT%H:%M:%S")) - as_timestamp(now()) )/ (3600*24)) | round(0) }}'
+        
+      elsie_bday:
+        unit_of_measurement: 'Days'
+        value_template: '{{ (( as_timestamp(strptime("2019-11-04 00:00:00" , "%Y-%m-%dT%H:%M:%S")) - as_timestamp(now()) )/ (3600*24)) | round(0) }}'
+        
+      rob_bday:
+        unit_of_measurement: 'Days'
+        value_template: '{{ (( as_timestamp(strptime("2020-05-28 00:00:00" , "%Y-%m-%dT%H:%M:%S")) - as_timestamp(now()) )/ (3600*24)) | round(0) }}'
+        
+      anniversary:
+        unit_of_measurement: 'Days'
+        value_template: '{{ (( as_timestamp(strptime("2019-09-19 00:00:00" , "%Y-%m-%dT%H:%M:%S")) - as_timestamp(now()) )/ (3600*24)) | round(0) }}'
+        
+      christmas_day:
+        unit_of_measurement: 'Days'
+        value_template: '{{ (( as_timestamp(strptime("2019-12-25 00:00:00" , "%Y-%m-%dT%H:%M:%S")) - as_timestamp(now()) )/ (3600*24)) | round(0) }}'
+
+#################################################################
+#                                                               #
+#                          Automations                          #
+#                                                               #
+################################################################# 
+
+#automation:
+#  - alias: "Holiday and Birthday Notification"
+#    hide_entity: false
+#    initial_state: true
+#    trigger:
+#      - platform: state
+#        entity_id:
+#          - sensor.holiday
+#    condition:
+#      - condition: template
+#        value_template: "{{ states('sensor.holiday') != 'unknown' }}"
+#      - condition: template
+#        value_template: "{{ states.sensor.holiday.state | trim != '' }}"
+#    action:
+#      - service: notify.pushbullet
+#        data:
+#          message: 'Today is {{ states.sensor.holiday.state }}.'
+#          title: '{{ states.sensor.holiday.state }}'

@@ -37,5 +37,5 @@
     to: 'on'
   action:
   - data:
-      message: Notifications Work!
-    service: notify.ios_rob
+      message: Testing alexa audio notifications
+    service: script.audio_notify
