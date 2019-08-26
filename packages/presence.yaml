@@ -1,0 +1,72 @@
+input_boolean:
+  presence_notifications:
+    name: Presence Notifications
+    initial: on
+
+automation:
+  - alias: "Presence: Everyone has left home"
+    id: "Presence_001"
+    trigger:
+      platform: state
+      entity_id: group.family
+      to: 'not_home'
+    condition:
+    - condition: state
+      entity_id: 'input_boolean.presence_notifications'
+      state: 'on'
+    action:
+    - data:
+        message: Everyone has left home.
+        title: Presence
+      service: script.notify_rob
+
+  - alias: "Presence: Rob arrived at work"
+    id: "Presence_002"
+    trigger:
+      platform: state
+      entity_id: device_tracker.rob
+      to: 'rob_work'
+    condition:
+    - condition: state
+      entity_id: 'input_boolean.presence_notifications'
+      state: 'on'
+    action:
+    - data:
+        message: Rob has arrived at work.
+        title: Presence
+      service: script.notify_rob
+
+  - alias: "Presence: Jo arrived at.."
+    id: "Presence_003"
+    trigger:
+    - platform: state
+      entity_id: device_tracker.joey
+      to: 'jo_work_p'
+    - platform: state
+      entity_id: device_tracker.joey
+      to: 'jo_work_b'
+    condition:
+    - condition: state
+      entity_id: 'input_boolean.presence_notifications'
+      state: 'on'
+    action:
+    - data:
+        message: Jo has arrived at {{ states("device_tracker.joey") }}
+        title: Presence
+      service: script.notify_rob
+
+  - alias: "Presence: Welcome Home"
+    id: "Presence_004"
+    trigger:
+      platform: state
+      entity_id: group.family
+      to: 'home'
+    action:
+      - service: script.notify_rob
+        data:
+          message: Welcome home.
+          title: Presence
+      - service: script.ismartalarm_off
+      - service: script.audio_notify
+        data:
+          message: Welcome home

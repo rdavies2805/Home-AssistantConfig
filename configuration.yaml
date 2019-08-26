@@ -28,7 +28,7 @@ config:
 updater:
 
 # Discover some devices automatically
-discovery:
+#discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -59,16 +59,13 @@ hive:
   username: !secret hive_username
   password: !secret hive_password
 
-hue:
-  bridges:
-    - host: !secret hue_bridge
-      allow_unreachable: true
-      allow_hue_groups: false
+#hue:
+#  bridges:
+#    - host: !secret hue_bridge
+#      allow_unreachable: true
+#      allow_hue_groups: false
 
 input_boolean:
-  guest_mode:
-    name: Guest Mode
-    initial: off
   notifications:
     name: Notifications
     initial: on

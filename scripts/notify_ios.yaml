@@ -1,0 +1,5 @@
+  notify_rob:
+    sequence: 
+      - service: notify.ios_rob
+        data_template: 
+          message: "{{ message }}"

@@ -1,0 +1,21 @@
+input_boolean:
+  morning_kettle:
+    name: Boil kettle on first pressence
+    initial: on
+
+automation:
+  - alias: "Kettle: Boil on first motion of the day"
+    id: "Kettle_001"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.kitchen_sensor_motion
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.morning_kettle
+      state: 'off'
+    action:
+      - service: script.boil_kettle
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.morning_kettle
