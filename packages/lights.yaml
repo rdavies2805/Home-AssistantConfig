@@ -1,0 +1,61 @@
+input_boolean:
+  guest_mode:
+    name: Guest Mode
+    initial: off
+
+hue:
+  bridges:
+    - host: !secret hue_bridge
+      allow_unreachable: true
+      allow_hue_groups: false
+
+automation:
+  - alias: "Lights: Turn on dining room lamp on first motion after sunset"
+    id: "Lights_001"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.kitchen_sensor_motion
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: 'group.family'
+        state: 'home'
+      - condition: state
+        entity_id: 'switch.dining_room_lamp'
+        state: 'off'
+      - condition: sun
+        after: sunset
+      - condition: time
+        before: '22:00:00'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.dining_room_lamp
+
+  - alias: "Lights: Lights Off at 10pm"
+    id: "Lights_002"
+    trigger:
+      platform: time
+      at: "22:00:00"
+    condition:
+      - condition: state
+        entity_id: 'input_boolean.guest_mode'
+        state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: group.living_room_lights
+      - service: light.turn_off
+        entity_id: light.front_door_light
+      - service: switch.turn_off
+        entity_id:
+          - switch.dining_room_lamp
+
+  - alias: "Lights: Lights On at Sunset"
+    id: "Lights_003"
+    trigger:
+      platform: sun
+      event: sunset
+    action:
+      - service: script.living_room_lights_halogen
+      - service: light.turn_on
+        entity_id: light.front_door_light

@@ -1,0 +1,48 @@
+switch:
+  - platform: command_line
+    switches:
+      4_gang_extension:
+        command_on: extension_all_on
+        command_off: extension_all_off
+        friendly_name: 4 Gang Extension
+      4_gang_extension_01:
+        command_on: !secret extension_01_on
+        command_off: !secret extension_01_off
+        friendly_name: Switch 01
+      4_gang_extension_02:
+        command_on: !secret extension_02_on
+        command_off: !secret extension_02_off
+        friendly_name: Switch 02
+      4_gang_extension_03:
+        command_on: !secret extension_03_on
+        command_off: !secret extension_03_off
+        friendly_name: Switch 03
+      4_gang_extension_04:
+        command_on: !secret extension_04_on
+        command_off: !secret extension_04_off
+        friendly_name: Switch 04
+      switch_01:
+        command_on: !secret switch_01_on
+        command_off: !secret switch_01_off
+        friendly_name: Switch 01
+      switch_02:
+        command_on: !secret switch_02_on
+        command_off: !secret switch_02_off
+        friendly_name: Switch 02
+      switch_03:
+        command_on: !secret switch_03_on
+        command_off: !secret switch_03_off
+        friendly_name: Switch 03
+
+group:
+  extension_lead:
+    - switch.4_gang_extension
+    - switch.4_gang_extension_01
+    - switch.4_gang_extension_02
+    - switch.4_gang_extension_03
+    - switch.4_gang_extension_04
+
+  spare_switches:
+    - switch.switch_01
+    - switch.switch_02
+    - switch.switch_03

@@ -22,3 +22,11 @@ family:
   entities:
     - device_tracker.rob
     - device_tracker.joey
+
+living_room_tv:
+  name: Living Room TV
+  entities:
+    - switch.apple_tv
+    - switch.netflix
+    - switch.tv
+    - switch.xbox_one

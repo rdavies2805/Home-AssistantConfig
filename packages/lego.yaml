@@ -1,0 +1,29 @@
+input_boolean:
+  christmas_train:
+    name: Christmas Train
+    initial: on
+
+rest_command:
+  train_forward:
+    url:  'http://192.168.0.79:8080/intensity/3/'
+  train_stop:
+    url: 'http://192.168.0.79:8080/intensity/0/'
+
+automation:
+  - alias: "Lego: Christmas Train On"
+    id: "Lego_001"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.christmas_train
+        to: 'on'
+    action:
+      - service: rest_command.train_forward
+
+  - alias: "Lego: Christmas Train Off"
+    id: "Lego_002"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.christmas_train
+        to: 'off'
+    action:
+      - service: rest_command.train_stop

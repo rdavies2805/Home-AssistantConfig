@@ -1,0 +1,93 @@
+input_boolean:
+  fish_fed_notification:
+    name: Fish fed notification
+    initial: off
+
+group:
+  aeon_multisensor:
+    name: Aeon Multi Sensor
+    entities:
+      - binary_sensor.aeon_multisensor_6_motion
+      - binary_sensor.aeon_multisensor_6_tamper
+      - sensor.aeon_multisensor_6_battery
+      - sensor.aeon_multisensor_6_illuminance
+      - sensor.aeon_multisensor_6_relative_humidity_measurement
+      - sensor.aeon_multisensor_6_temperature_measurement
+      - sensor.aeon_multisensor_6_ultraviolet_index
+      - sensor.aeon_multisensor_6_power_source
+  
+  doorbell:
+    name: Doorbell
+    entities:
+      - binary_sensor.doorbell_acceleration
+      - binary_sensor.doorbell_contact    
+      - sensor.doorbell_battery
+      - sensor.doorbell_temperature_measurement
+      - sensor.doorbell_x_coordinate
+      - sensor.doorbell_y_coordinate
+      - sensor.doorbell_z_coordinate
+
+  smartthings:
+    name: SmartThings
+    entities:
+      - binary_sensor.elsie_presence
+      - binary_sensor.rob_presence
+      - light.tradfri_dimmer_v0_2
+      - sensor.elsie_battery
+      - switch.dining_room_lamp_2
+      - switch.left_lamp_2
+      - switch.right_lamp_2
+
+  fish_tank_feeder:
+    name: Fish Tank Auto Feeder
+    entities: 
+      - binary_sensor.fish_tank_feeding_sensor_acceleration
+      - binary_sensor.fish_tank_feeding_sensor_contact
+      - sensor.fish_tank_feeding_sensor_battery
+      - sensor.fish_tank_feeding_sensor_temperature_measurement
+      - sensor.fish_tank_feeding_sensor_x_coordinate
+      - sensor.fish_tank_feeding_sensor_y_coordinate
+      - sensor.fish_tank_feeding_sensor_z_coordinate
+
+  front_door_sensor:
+    name: Front Door
+    entities:
+      - binary_sensor.front_door_acceleration
+      - binary_sensor.front_door_contact
+      - sensor.front_door_battery
+      - sensor.front_door_temperature_measurement
+      - sensor.front_door_x_coordinate
+      - sensor.front_door_y_coordinate
+      - sensor.front_door_z_coordinate
+
+  virtual_switch:
+    name: SmartThings Virtual Switch
+    entities:
+      - switch.virtual_switch_goodnight
+      - switch.virtual_switch_ismartalarm
+      - switch.virtual_switch_kettle
+      - switch.virtual_switch_merry_christmas
+
+automation:
+  - alias: "Smartthings: Fish are fed notification"
+    id: "Smartthings_001"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.fish_tank_feeding_sensor_acceleration
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.fish_fed_notification
+      state: 'off'
+    action:
+      - service: script.boil_kettle
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.fish_fed_notification
+      - service: script.notify_rob
+        data:
+          message: The fish are being fed
+          title: Fish Tank
+      - delay: '00:03:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.fish_fed_notification
