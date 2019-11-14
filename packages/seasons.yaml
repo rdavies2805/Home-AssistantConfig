@@ -1,0 +1,21 @@
+homeassistant:
+
+sensor:
+  - platform: season
+    type: astronomical
+
+automation:
+  - alias: "Season: Season Change Notification"
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.season
+    condition:
+      - condition: template
+        value_template: '{{ trigger.from_state.state | lower != "unknown" }}'
+    action:
+      - data_template:
+          message: >
+            Good bye {{ trigger.from_state.state }}, and say hello to {{ trigger.to_state.state }}!
+          title: Presence
+        service: script.notify_rob

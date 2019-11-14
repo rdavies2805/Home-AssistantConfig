@@ -1,0 +1,15 @@
+automation:
+  - alias: 'Feed Fish Alert'
+    initial_state: 'on'
+    trigger:
+      - platform: time
+        at: '17:30:00'
+    condition:
+    - condition: state
+      entity_id: 'device_tracker.rob'
+      state: 'home'
+    action:
+      - data:
+          message: "It's time to feed the fish"
+          title: Feed Fish
+        service: script.notify_rob

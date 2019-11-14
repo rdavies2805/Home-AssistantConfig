@@ -1,0 +1,45 @@
+homeassistant:
+  customize:
+    binary_sensor.space_station:
+      icon: mdi:satellite-variant
+      friendly_name: International Space Station Visibility
+
+      hidden: False
+      homebridge_hidden: true
+    sensor.launch_window:
+      hidden: False
+      icon: mdi:rocket
+      friendly_name: Rocket Launch Window
+
+binary_sensor:
+  - platform: iss
+    show_on_map: true
+
+sensor:
+  - platform: moon
+
+automation:
+  - alias: 'ISS is above Me'
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.space_station
+        to: 'on'
+        from: 'off'
+    action:
+      - data:
+          message: "Look outside, the International Space Station is above you right now!"
+          title: Space
+        service: script.notify_rob
+
+  - alias: 'Full Moon'
+    trigger:
+      - platform: state
+        entity_id: sensor.moon
+        to: 'Full Moon'
+    action:
+      - delay: '0{{ (range(1, 5)|random|int) }}:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+      - data:
+          message: "There is a full moon out tonight."
+          title: Space
+        service: script.notify_rob

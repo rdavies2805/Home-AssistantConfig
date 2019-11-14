@@ -3,6 +3,19 @@ input_boolean:
     name: Presence Notifications
     initial: on
 
+#sensor:
+#  - platform: template
+#    sensors:
+#      who_is_home:
+#        friendly_name: Who is home
+#        value_template: >
+#          {% if is_state('group.family', 'home') %}
+#            {{ dict((states|selectattr('entity_id', 'in', state_attr('group.family', 'entity_id'))
+#            |list)|groupby('state'))['home']|map(attribute='name')|list|join(', ') }}
+#          {%else%}
+#            Nobody home
+#          {%endif%}
+
 automation:
   - alias: "Presence: Everyone has left home"
     id: "Presence_001"
@@ -35,6 +48,28 @@ automation:
         message: Rob has arrived at work.
         title: Presence
       service: script.notify_rob
+  
+  - alias: "Presence: Jo has left work.."
+    id: "Presence_005"
+    trigger:
+    - platform: state
+      entity_id: device_tracker.joey
+      from: 'jo_work_p'
+    - platform: state
+      entity_id: device_tracker.joey
+      from: 'jo_work_b'
+    condition:
+    - condition: state
+      entity_id: 'device_tracker.rob'
+      state: 'home'
+    action:
+    - service: script.notify_rob
+      data:
+        message: Jo has left work and is on her way home.
+        title: Presence
+    - service: script.audio_notify
+      data:
+        message: Jo has left work and is on her way home.
 
   - alias: "Presence: Jo arrived at.."
     id: "Presence_003"
@@ -51,12 +86,38 @@ automation:
       state: 'on'
     action:
     - data:
-        message: Jo has arrived at {{ states("device_tracker.joey") }}
+        message: >
+          {% if is_state('device_tracker.joey', 'jo_work_p') %}
+            Jo has arrived at work, Pontypridd.
+          {% else %}
+            Jo has arrived at work, Blackwood.
+          {% endif %}
         title: Presence
       service: script.notify_rob
+    #- data:
+    #    message: Jo has arrived at {{ states("device_tracker.joey") }}
+    #    title: Presence
+    #  service: script.notify_rob
 
-  - alias: "Presence: Welcome Home"
-    id: "Presence_004"
+  #- alias: "Presence: Welcome Home"
+  #  id: "Presence_004"
+  #  trigger:
+  #    platform: state
+  #    entity_id: group.family
+  #    to: 'home'
+   # action:
+   #   - service: script.notify_rob
+   #     data:
+   #       message: Welcome home.
+   #       title: Presence
+   #   - service: script.ismartalarm_off
+   #   - service: script.audio_notify
+   #     data:
+   #       message: Welcome home
+
+  - id: "Presence_004"
+    alias: "Presence: Welcome Home"
+    hide_entity: false
     trigger:
       platform: state
       entity_id: group.family
@@ -67,6 +128,9 @@ automation:
           message: Welcome home.
           title: Presence
       - service: script.ismartalarm_off
+      - wait_template:  "{{ is_state('binary_sensor.hallway_sensor_motion','on')}}"
+        timeout: 00:05:00
+      - delay: 00:00:01 
       - service: script.audio_notify
         data:
           message: Welcome home
